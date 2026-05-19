@@ -72,19 +72,26 @@ class InvoicePdfController extends Controller
             'fontBoldB64'        => $this->fontB64('inter-latin-700-normal.woff'),
         ])->render();
 
-        putenv('HOME=/tmp');
+        $isLinux = PHP_OS_FAMILY === 'Linux';
 
-        $pdf = Browsershot::html($html)
-            ->setChromePath(self::chromePath())
-            ->setOption('args', [
-                '--no-sandbox',
-                '--disable-setuid-sandbox',
-                '--disable-dev-shm-usage',
+        if ($isLinux) {
+            putenv('HOME=/tmp');
+        }
+
+        $chromeArgs = ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage'];
+
+        if ($isLinux) {
+            $chromeArgs = array_merge($chromeArgs, [
                 '--disable-gpu',
                 '--no-zygote',
                 '--single-process',
                 '--user-data-dir=/tmp/chrome-user-data',
-            ])
+            ]);
+        }
+
+        $pdf = Browsershot::html($html)
+            ->setChromePath(self::chromePath())
+            ->setOption('args', $chromeArgs)
             ->format('A4')
             ->showBackground()
             ->margins(0, 0, 0, 0)
