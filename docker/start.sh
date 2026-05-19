@@ -4,6 +4,12 @@ cd /var/www
 
 echo "=== Starting Fawatiry ==="
 
+# Copy secret file if Render mounted it at /etc/secrets/.env
+if [ -f /etc/secrets/.env ]; then
+    cp /etc/secrets/.env /var/www/.env
+    echo "Loaded .env from Render secret file"
+fi
+
 # Generate app key if missing
 if [ -z "$APP_KEY" ]; then
     echo "WARNING: APP_KEY is not set!"
