@@ -72,9 +72,10 @@ class InvoicePdfController extends Controller
             'fontBoldB64'        => $this->fontB64('inter-latin-700-normal.woff'),
         ])->render();
 
+        putenv('HOME=/tmp');
+
         $pdf = Browsershot::html($html)
             ->setChromePath(self::chromePath())
-            ->noSandbox()
             ->setOption('args', [
                 '--no-sandbox',
                 '--disable-setuid-sandbox',
