@@ -1,21 +1,29 @@
 #!/bin/bash
-set -e
 
 cd /var/www
 
+echo "=== Starting Fawatiry ==="
+
 # Generate app key if missing
-php artisan key:generate --no-interaction --force 2>/dev/null || true
+if [ -z "$APP_KEY" ]; then
+    echo "WARNING: APP_KEY is not set!"
+fi
 
-# Run migrations
-php artisan migrate --force --no-interaction
+# Clear old caches
+php artisan config:clear 2>/dev/null || true
+php artisan cache:clear 2>/dev/null || true
 
-# Create storage symlink
+# Run migrations (warn but don't stop if it fails)
+echo "Running migrations..."
+php artisan migrate --force --no-interaction 2>&1 || echo "WARNING: Migration failed - check DB_URL"
+
+# Storage symlink
 php artisan storage:link --force 2>/dev/null || true
 
-# Cache config & routes for performance
-php artisan config:cache
-php artisan route:cache
-php artisan view:cache
+# Cache for performance
+php artisan config:cache 2>/dev/null || true
+php artisan route:cache 2>/dev/null || true
+php artisan view:cache  2>/dev/null || true
 
-# Start services
+echo "=== Starting nginx + php-fpm ==="
 exec /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf
