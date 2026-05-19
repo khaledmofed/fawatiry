@@ -1,0 +1,14 @@
+/* Invoice editor: A4 preview polish */
+#invoice-a4-canvas [contenteditable="true"]:focus {
+    outline: none;
+}
+
+#invoice-editor-root input:focus,
+#invoice-editor-root textarea:focus,
+#invoice-editor-root select:focus {
+    outline: none;
+}
+
+#invoice-editor-root tbody tr:hover {
+    background-color: rgba(15, 118, 110, 0.04);
+}

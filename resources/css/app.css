@@ -1,0 +1,52 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    html {
+        @apply antialiased;
+    }
+    body {
+        @apply bg-clay-canvas text-clay-body font-sans;
+    }
+    [x-cloak] {
+        display: none !important;
+    }
+}
+
+@layer components {
+    .clay-page {
+        @apply min-h-screen bg-clay-canvas;
+    }
+
+    .clay-glass-panel {
+        @apply border border-white/50 bg-white/70 shadow-clay-card backdrop-blur-md;
+    }
+
+    .clay-glass-dark {
+        @apply border border-white/10 bg-clay-surface-dark/85 shadow-clay-glass backdrop-blur-md;
+    }
+
+    .clay-input-ring {
+        @apply focus:border-clay-ink focus:ring-2 focus:ring-clay-teal/25 focus:ring-offset-0;
+    }
+
+    .clay-select {
+        @apply mt-1 block h-11 w-full rounded-clay border border-clay-hairline bg-clay-canvas px-3 text-sm text-clay-ink shadow-sm focus:border-clay-ink focus:outline-none focus:ring-2 focus:ring-clay-teal/20;
+    }
+}
+
+/* Invoice editor (Blade + Alpine preview) */
+#invoice-a4-canvas [contenteditable='true']:focus {
+    outline: none;
+}
+
+#invoice-editor-root input:focus,
+#invoice-editor-root textarea:focus,
+#invoice-editor-root select:focus {
+    outline: none;
+}
+
+#invoice-editor-root tbody tr:hover {
+    background-color: rgba(15, 118, 110, 0.04);
+}
