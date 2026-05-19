@@ -4,9 +4,6 @@ cd /var/www
 
 echo "=== Starting Fawatiry ==="
 
-# Unset DB_URL so individual DB_* variables take effect
-unset DB_URL
-
 # Generate app key if missing
 if [ -z "$APP_KEY" ]; then
     echo "WARNING: APP_KEY is not set!"
