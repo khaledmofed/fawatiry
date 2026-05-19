@@ -83,10 +83,7 @@ class InvoicePdfController extends Controller
         if ($isLinux) {
             $chromeArgs = array_merge($chromeArgs, [
                 '--disable-gpu',
-                '--no-zygote',
-                '--single-process',
-                '--disable-crash-reporter',
-                '--user-data-dir=/tmp/chrome-user-data',
+                '--user-data-dir=/var/www/storage/chrome',
             ]);
         }
 

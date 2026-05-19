@@ -43,13 +43,12 @@ RUN npm ci && npm run build && rm -rf node_modules
 # Re-install only puppeteer for Browsershot (no Chromium download)
 RUN npm init -y && PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm install puppeteer
 
-# Permissions
+# Permissions + Chrome writable dirs
 RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache \
     && chmod -R 775 /var/www/storage /var/www/bootstrap/cache \
-    && mkdir -p /var/www/.local/share/applications \
-    && chown -R www-data:www-data /var/www/.local \
-    && mkdir -p /tmp/chrome-user-data \
-    && chown -R www-data:www-data /tmp/chrome-user-data
+    && mkdir -p /var/www/storage/chrome \
+    && chown -R www-data:www-data /var/www/storage/chrome \
+    && usermod -d /tmp www-data
 
 # Nginx config
 COPY docker/nginx.conf /etc/nginx/sites-available/default
