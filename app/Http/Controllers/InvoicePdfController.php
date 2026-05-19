@@ -85,6 +85,7 @@ class InvoicePdfController extends Controller
                 '--disable-gpu',
                 '--no-zygote',
                 '--single-process',
+                '--disable-crash-reporter',
                 '--user-data-dir=/tmp/chrome-user-data',
             ]);
         }
