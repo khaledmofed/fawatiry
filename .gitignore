@@ -4,6 +4,9 @@
 /database/database.sqlite
 /database/*.sqlite
 /storage/fonts/*.ufm
+/storage/*.pdf
+/storage/*.png
+/test_output.pdf
 .claude/
 .env.backup
 .env.production
