@@ -4,11 +4,8 @@ cd /var/www
 
 echo "=== Starting Fawatiry ==="
 
-# Copy secret file if Render mounted it at /etc/secrets/.env
-if [ -f /etc/secrets/.env ]; then
-    cp /etc/secrets/.env /var/www/.env
-    echo "Loaded .env from Render secret file"
-fi
+# Unset DB_URL so individual DB_* variables take effect
+unset DB_URL
 
 # Generate app key if missing
 if [ -z "$APP_KEY" ]; then
