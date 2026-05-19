@@ -75,10 +75,19 @@ class InvoicePdfController extends Controller
         $pdf = Browsershot::html($html)
             ->setChromePath(self::chromePath())
             ->noSandbox()
+            ->setOption('args', [
+                '--no-sandbox',
+                '--disable-setuid-sandbox',
+                '--disable-dev-shm-usage',
+                '--disable-gpu',
+                '--no-zygote',
+                '--single-process',
+                '--user-data-dir=/tmp/chrome-user-data',
+            ])
             ->format('A4')
             ->showBackground()
-            ->margins(0, 0, 0, 0)   // margins are defined in @page CSS
-            ->waitUntilNetworkIdle() // wait for fonts to load
+            ->margins(0, 0, 0, 0)
+            ->waitUntilNetworkIdle()
             ->pdf();
 
         return response($pdf, 200, [

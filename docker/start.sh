@@ -17,9 +17,6 @@ php artisan cache:clear 2>/dev/null || true
 echo "Running migrations..."
 php artisan migrate --force --no-interaction 2>&1 || echo "WARNING: Migration failed - check DB_URL"
 
-# Seed database (runs once — will be removed after first deploy)
-php artisan db:seed --force --no-interaction 2>&1 || echo "WARNING: Seeder failed"
-
 # Storage symlink
 php artisan storage:link --force 2>/dev/null || true
 
