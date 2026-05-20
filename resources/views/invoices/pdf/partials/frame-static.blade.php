@@ -79,7 +79,7 @@
                 {{-- Invoice details — same position as in the editor (left column, below From) --}}
                 <div style="margin-top:12px;">
                     <p class="{{ $t['sectionTitle'] }} mb-2">{{ __('Invoice details') }}</p>
-                    <table width="100%" style="border-collapse:collapse; font-size:0.875rem;">
+                    <table width="100%" style="border-collapse:collapse; font-size:0.75rem;">
                         <tr>
                             <td style="padding:5px 0; border-bottom:1px solid rgba(0,0,0,0.08); vertical-align:middle; opacity:0.75; width:25%;">{{ __('Issue date') }}</td>
                             <td style="padding:5px 0; border-bottom:1px solid rgba(0,0,0,0.08); vertical-align:middle; font-weight:500; width:25%;">{{ $invoice->invoice_date?->format('Y-m-d') ?? '—' }}</td>

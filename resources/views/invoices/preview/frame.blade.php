@@ -70,7 +70,7 @@
             </div>
             <div>
                 <p class="{{ $t['sectionTitle'] }} mb-2">{{ __('Invoice details') }}</p>
-                <dl class="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
+                <dl class="grid grid-cols-2 gap-x-4 gap-y-2 text-xs">
                     <div class="border-b border-black/5 pb-2">
                         <dt class="opacity-70">{{ __('Issue date') }}</dt>
                         <dd><input type="date" x-model="invoice.invoice_date" @change="queueMetaSave()" class="{{ $t['input'] }} w-full" /></dd>
