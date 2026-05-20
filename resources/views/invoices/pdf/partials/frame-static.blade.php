@@ -142,9 +142,9 @@
                 @forelse($invoice->items as $item)
                     <tr>
                         <td class="pdf-td-cell {{ $t['td'] }}" style="{{ $pdfColors['tdStyle'] }}; padding:6px 10px; vertical-align:middle;">
-                            <span style="font-weight:500;">{{ \App\Support\InvoicePdfAssets::pdfPlain($item->name) }}</span>
+                            <span style="font-weight:500;">{!! \App\Support\InvoicePdfAssets::pdfPlain($item->name) !!}</span>
                             @if(!empty($item->description))
-                                <div style="font-size:0.72rem; opacity:0.6; margin-top:2px; line-height:1.35;">{{ \App\Support\InvoicePdfAssets::pdfPlain($item->description) }}</div>
+                                <div style="font-size:0.72rem; opacity:0.6; margin-top:2px; line-height:1.35;">{!! \App\Support\InvoicePdfAssets::pdfPlain($item->description) !!}</div>
                             @endif
                         </td>
                         <td class="pdf-td-cell {{ $t['td'] }}" style="{{ $pdfColors['tdStyle'] }}; padding:6px 10px; vertical-align:middle; text-align:{{ $cellValue }}; font-variant-numeric:tabular-nums;">{{ e(number_format((float) $item->quantity, 2, '.', '')) }}</td>

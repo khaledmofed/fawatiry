@@ -739,40 +739,8 @@ export function registerInvoiceEditor(Alpine) {
         },
 
         print() {
-            const node = document.getElementById("invoice-a4-canvas");
-            if (!node) return;
-
-            const dir = document.documentElement.dir || "ltr";
-            const lang = document.documentElement.lang || "en";
-            const cssLinks = Array.from(
-                document.querySelectorAll('link[rel="stylesheet"]'),
-            )
-                .map((l) => `<link rel="stylesheet" href="${l.href}">`)
-                .join("");
-
-            const w = window.open("", "_blank");
-            w.document.write(
-                `<!DOCTYPE html><html lang="${lang}" dir="${dir}"><head>` +
-                    `<meta charset="utf-8"><title>Invoice</title>${cssLinks}` +
-                    `<style>` +
-                    `@page{size:A4 portrait;margin:0}` +
-                    `html{margin:0;padding:0;background:#fff;}body{margin:0 auto;padding:0;background:#fff!important;zoom:0.95;width:210mm;}` +
-                    `#invoice-a4-canvas{width:210mm!important;min-height:unset!important;box-shadow:none!important;border-radius:0!important;background:#fff!important;padding:10mm 12mm;box-sizing:border-box;}` +
-                    `</style></head><body>${node.outerHTML}</body></html>`,
-            );
-            w.document.close();
-
-            w.addEventListener("load", () => {
-                // Fix double-encoded HTML entities (&amp; → &) caused by outerHTML serialization
-                const walker = w.document.createTreeWalker(w.document.body, NodeFilter.SHOW_TEXT);
-                const nodes = [];
-                while (walker.nextNode()) nodes.push(walker.currentNode);
-                nodes.forEach((n) => { n.textContent = n.textContent.replace(/&amp;/g, '&'); });
-
-                w.focus();
-                w.print();
-                w.close();
-            });
+            // Open the PDF in a new tab — the browser PDF viewer has a built-in print button
+            window.open(this.routes.dompdf, '_blank');
         },
     }));
 }
