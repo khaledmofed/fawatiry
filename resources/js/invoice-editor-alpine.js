@@ -756,8 +756,8 @@ export function registerInvoiceEditor(Alpine) {
                     `<meta charset="utf-8"><title>Invoice</title>${cssLinks}` +
                     `<style>` +
                     `@page{size:A4 portrait;margin:0}` +
-                    `html,body{margin:0;padding:0;background:#fff;zoom:0.85;display:flex;justify-content:center;}` +
-                    `#invoice-a4-canvas{width:210mm!important;min-height:unset!important;box-shadow:none!important;border-radius:0!important;padding:10mm 12mm;box-sizing:border-box;}` +
+                    `html{margin:0;padding:0;background:#fff;}body{margin:0 auto;padding:0;background:#fff!important;zoom:0.95;width:210mm;}` +
+                    `#invoice-a4-canvas{width:210mm!important;min-height:unset!important;box-shadow:none!important;border-radius:0!important;background:#fff!important;padding:10mm 12mm;box-sizing:border-box;}` +
                     `</style></head><body>${node.outerHTML}</body></html>`,
             );
             w.document.close();
