@@ -40,14 +40,14 @@
 
         /* Client card — structural fallback; theme class overrides bg/border */
         .pdf-client-card {
-            border: 1px solid #e2e8f0;
+            border: 1px solid #ffffff;
             border-radius: 10px;
             padding: 14px;
         }
 
         /* Table header cell — structural fallback; theme class overrides bg/color */
         .pdf-th-cell {
-            border-bottom: 1px solid #e2e8f0;
+            border-bottom: 1px solid #ffffff;
             padding: 8px 10px;
             font-weight: 600;
             font-size: 0.8rem;
@@ -62,14 +62,14 @@
 
         /* Totals box — structural fallback; theme class overrides bg/border */
         .pdf-totals-box {
-            border: 1px solid #e2e8f0;
+            border: 1px solid #ffffff;
             border-radius: 10px;
             padding: 14px;
         }
 
         /* Grand total row */
         .pdf-grand {
-            border-top: 1px solid #e2e8f0;
+            border-top: 1px solid #ffffff;
             padding-top: 8px;
             font-weight: 700;
             font-size: 1rem;

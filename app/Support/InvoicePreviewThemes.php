@@ -41,11 +41,11 @@ class InvoicePreviewThemes
             'clean-white' => [
                 'wrapStyle'    => 'background:#ffffff; color:#0f172a;',
                 'topBarStyle'  => '',
-                'cardStyle'    => 'background:#f8fafc; border:1px solid #e2e8f0;',
-                'thStyle'      => 'background:#f8fafc; color:#475569; border-bottom:1px solid #e2e8f0;',
+                'cardStyle'    => 'background:#f8fafc; border:1px solid #ffffff;',
+                'thStyle'      => 'background:#f8fafc; color:#475569; border-bottom:1px solid #ffffff;',
                 'tdStyle'      => 'border-bottom:1px solid #f1f5f9;',
-                'totalsStyle'  => 'background:#f8fafc; border:1px solid #e2e8f0;',
-                'grandStyle'   => 'border-top:1px solid #e2e8f0; color:#0f172a;',
+                'totalsStyle'  => 'background:#f8fafc; border:1px solid #ffffff;',
+                'grandStyle'   => 'border-top:1px solid #ffffff; color:#0f172a;',
             ],
             'luxury-black-gold' => [
                 'wrapStyle'    => 'background:#0c0c0c; color:#e5e5e5;',
@@ -59,7 +59,7 @@ class InvoicePreviewThemes
             'corporate-blue' => [
                 'wrapStyle'    => 'background:#ffffff; color:#0f172a;',
                 'topBarStyle'  => 'background:#1e3a6e; color:#ffffff; border-radius:8px; padding:20px 24px; margin-bottom:24px;',
-                'cardStyle'    => 'background:#f8fafc; border:1px solid #e2e8f0;',
+                'cardStyle'    => 'background:#f8fafc; border:1px solid #ffffff;',
                 'thStyle'      => 'background:#1e3a6e; color:#ffffff; border-bottom:1px solid #1e3a6e;',
                 'tdStyle'      => 'border-bottom:1px solid #f1f5f9;',
                 'totalsStyle'  => 'background:#eff6ff; border:1px solid #bfdbfe;',
@@ -86,10 +86,10 @@ class InvoicePreviewThemes
             'arabic-rtl-professional' => [
                 'wrapStyle'    => 'background:#ffffff; color:#0f172a;',
                 'topBarStyle'  => '',
-                'cardStyle'    => 'background:#f0fdf9; border:1px solid #e2e8f0;',
+                'cardStyle'    => 'background:#f0fdf9; border:1px solid #ffffff;',
                 'thStyle'      => 'background:#f0fdfa; color:#134e4a; border-bottom:1px solid #99f6e4;',
                 'tdStyle'      => 'border-bottom:1px solid #f1f5f9;',
-                'totalsStyle'  => 'background:#ffffff; border:1px solid #e2e8f0;',
+                'totalsStyle'  => 'background:#ffffff; border:1px solid #ffffff;',
                 'grandStyle'   => 'border-top:1px solid #99f6e4; color:#134e4a;',
             ],
             'creative-agency' => [
