@@ -714,24 +714,14 @@ export function registerInvoiceEditor(Alpine) {
                 `<!DOCTYPE html><html lang="${lang}" dir="${dir}"><head>` +
                 `<meta charset="utf-8"><title>Invoice</title>${cssLinks}` +
                 `<style>` +
-                `@page{size:A4 portrait;margin:12mm}` +
-                `html,body{margin:0;padding:0;background:#fff;width:186mm;}` +
-                `#invoice-a4-canvas{width:186mm!important;min-height:unset!important;box-shadow:none!important;border-radius:0!important;}` +
+                `@page{size:A4 portrait;margin:0}` +
+                `html,body{margin:0;padding:0;background:#fff;zoom:0.75;}` +
+                `#invoice-a4-canvas{width:210mm!important;min-height:unset!important;box-shadow:none!important;border-radius:0!important;padding:10mm 12mm;box-sizing:border-box;}` +
                 `</style></head><body>${node.outerHTML}</body></html>`
             );
             w.document.close();
 
             w.addEventListener('load', () => {
-                // Scale down to fit one A4 page if content is taller than the printable area
-                const canvas = w.document.getElementById('invoice-a4-canvas');
-                if (canvas) {
-                    const pxPerMm  = 96 / 25.4;
-                    const maxH     = (297 - 24) * pxPerMm; // 297mm minus 2×12mm margins
-                    const actualH  = canvas.scrollHeight;
-                    if (actualH > maxH) {
-                        w.document.body.style.zoom = (maxH / actualH).toFixed(4);
-                    }
-                }
                 w.focus();
                 w.print();
                 w.close();
