@@ -1,5 +1,5 @@
 export function registerInvoiceEditor(Alpine) {
-    Alpine.data('invoiceEditor', () => ({
+    Alpine.data("invoiceEditor", () => ({
         routes: {},
         strings: {},
         theme: {},
@@ -12,16 +12,16 @@ export function registerInvoiceEditor(Alpine) {
         document: { version: 2, meta: {}, custom: {}, stamps: [] },
         invoice: {},
         client: null,
-        templatePick: '',
-        productPick: '',
-        statusMessage: '',
+        templatePick: "",
+        productPick: "",
+        statusMessage: "",
         metaTimer: null,
         itemsTimer: null,
         designTimer: null,
         clientTimer: null,
         zoom: 1,
         stampDragging: false,
-        selectedStampId: '',
+        selectedStampId: "",
         logoDragging: false,
         _stampDrag: null,
         _logoDrag: null,
@@ -51,11 +51,14 @@ export function registerInvoiceEditor(Alpine) {
             this.company = { ...p.company };
             this.items = JSON.parse(JSON.stringify(p.items || []));
             const rawDoc = p.document || {};
-            const stamps = Array.isArray(rawDoc.stamps) ? JSON.parse(JSON.stringify(rawDoc.stamps)) : [];
+            const stamps = Array.isArray(rawDoc.stamps)
+                ? JSON.parse(JSON.stringify(rawDoc.stamps))
+                : [];
             if (stamps.length === 0 && rawDoc.stamp?.path) {
                 stamps.push({
                     id:
-                        typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function'
+                        typeof crypto !== "undefined" &&
+                        typeof crypto.randomUUID === "function"
                             ? crypto.randomUUID()
                             : `stamp-${Date.now()}`,
                     path: rawDoc.stamp.path,
@@ -67,7 +70,10 @@ export function registerInvoiceEditor(Alpine) {
             }
             this.document = {
                 version: 2,
-                meta: { ...(rawDoc.meta || {}), zoom: Number(rawDoc.meta?.zoom ?? 1) || 1 },
+                meta: {
+                    ...(rawDoc.meta || {}),
+                    zoom: Number(rawDoc.meta?.zoom ?? 1) || 1,
+                },
                 custom: { ...(rawDoc.custom || {}) },
                 logo: {
                     offset_x: Number(rawDoc.logo?.offset_x ?? 0),
@@ -77,13 +83,16 @@ export function registerInvoiceEditor(Alpine) {
                 stamps,
             };
             this.invoice = { ...p.invoice };
-            if (this.invoice.client_id === null || this.invoice.client_id === undefined) {
-                this.invoice.client_id = '';
+            if (
+                this.invoice.client_id === null ||
+                this.invoice.client_id === undefined
+            ) {
+                this.invoice.client_id = "";
             } else {
                 this.invoice.client_id = String(this.invoice.client_id);
             }
             this.client = p.client ? { ...p.client } : null;
-            this.templatePick = String(this.invoice.invoice_template_id || '');
+            this.templatePick = String(this.invoice.invoice_template_id || "");
             this.zoom = Number(this.document?.meta?.zoom ?? 1) || 1;
             this.applyZoomCss();
             this.pickDefaultSelectedStampId();
@@ -92,7 +101,9 @@ export function registerInvoiceEditor(Alpine) {
         pickDefaultSelectedStampId() {
             const list = this.document.stamps || [];
             const firstWithPath = list.find((s) => s && s.path);
-            this.selectedStampId = firstWithPath ? firstWithPath.id : list[0]?.id || '';
+            this.selectedStampId = firstWithPath
+                ? firstWithPath.id
+                : list[0]?.id || "";
         },
 
         stampsOnPage() {
@@ -100,18 +111,26 @@ export function registerInvoiceEditor(Alpine) {
         },
 
         selectedStamp() {
-            return (this.document.stamps || []).find((s) => s.id === this.selectedStampId) || null;
+            return (
+                (this.document.stamps || []).find(
+                    (s) => s.id === this.selectedStampId,
+                ) || null
+            );
         },
 
         csrf() {
-            return document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+            return (
+                document
+                    .querySelector('meta[name="csrf-token"]')
+                    ?.getAttribute("content") || ""
+            );
         },
 
         setStatus(msg) {
-            this.statusMessage = msg || '';
+            this.statusMessage = msg || "";
             // Also update the header status span which lives outside x-data scope
-            const el = document.getElementById('editor-status-msg');
-            if (el) el.textContent = msg || '';
+            const el = document.getElementById("editor-status-msg");
+            if (el) el.textContent = msg || "";
         },
 
         formatMoney(v) {
@@ -129,25 +148,27 @@ export function registerInvoiceEditor(Alpine) {
         },
 
         statusLabel() {
-            return this.statusLabels[this.invoice.status] || this.invoice.status;
+            return (
+                this.statusLabels[this.invoice.status] || this.invoice.status
+            );
         },
 
         badgeVariantClass() {
             const m = {
-                paid: 'badgePaid',
-                pending: 'badgePending',
-                overdue: 'badgeOverdue',
-                draft: 'badgeDraft',
-                cancelled: 'badgeCancelled',
+                paid: "badgePaid",
+                pending: "badgePending",
+                overdue: "badgeOverdue",
+                draft: "badgeDraft",
+                cancelled: "badgeCancelled",
             };
 
-            const k = m[this.invoice.status] || 'badgeDraft';
+            const k = m[this.invoice.status] || "badgeDraft";
 
-            return this.theme[k] || '';
+            return this.theme[k] || "";
         },
 
         applyZoomCss() {
-            const el = document.getElementById('invoice-a4-scale');
+            const el = document.getElementById("invoice-a4-scale");
             if (el) {
                 el.style.transform = `scale(${this.zoom})`;
             }
@@ -176,16 +197,17 @@ export function registerInvoiceEditor(Alpine) {
             this.setStatus(this.strings.saving);
             try {
                 const res = await fetch(this.routes.meta, {
-                    method: 'PATCH',
+                    method: "PATCH",
                     headers: {
-                        'Content-Type': 'application/json',
-                        Accept: 'application/json',
-                        'X-CSRF-TOKEN': this.csrf(),
-                        'X-Requested-With': 'XMLHttpRequest',
+                        "Content-Type": "application/json",
+                        Accept: "application/json",
+                        "X-CSRF-TOKEN": this.csrf(),
+                        "X-Requested-With": "XMLHttpRequest",
                     },
                     body: JSON.stringify({
                         client_id:
-                            this.invoice.client_id === '' || this.invoice.client_id === null
+                            this.invoice.client_id === "" ||
+                            this.invoice.client_id === null
                                 ? null
                                 : parseInt(this.invoice.client_id, 10),
                         status: this.invoice.status,
@@ -200,12 +222,13 @@ export function registerInvoiceEditor(Alpine) {
                 });
                 const data = await res.json();
                 if (!data.ok) {
-                    throw new Error('meta');
+                    throw new Error("meta");
                 }
                 Object.assign(this.invoice, data.invoice);
                 this.invoice.client_id =
-                    this.invoice.client_id === null || this.invoice.client_id === undefined
-                        ? ''
+                    this.invoice.client_id === null ||
+                    this.invoice.client_id === undefined
+                        ? ""
                         : String(this.invoice.client_id);
                 if (data.client !== undefined) {
                     this.client = data.client;
@@ -231,12 +254,12 @@ export function registerInvoiceEditor(Alpine) {
             this.setStatus(this.strings.saving);
             try {
                 const res = await fetch(this.routes.client, {
-                    method: 'PATCH',
+                    method: "PATCH",
                     headers: {
-                        'Content-Type': 'application/json',
-                        Accept: 'application/json',
-                        'X-CSRF-TOKEN': this.csrf(),
-                        'X-Requested-With': 'XMLHttpRequest',
+                        "Content-Type": "application/json",
+                        Accept: "application/json",
+                        "X-CSRF-TOKEN": this.csrf(),
+                        "X-Requested-With": "XMLHttpRequest",
                     },
                     body: JSON.stringify({
                         name: this.client.name,
@@ -249,7 +272,7 @@ export function registerInvoiceEditor(Alpine) {
                 });
                 const data = await res.json();
                 if (!data.ok) {
-                    throw new Error('client');
+                    throw new Error("client");
                 }
                 if (data.client) {
                     this.client = data.client;
@@ -271,7 +294,7 @@ export function registerInvoiceEditor(Alpine) {
                 items: this.items.map((row) => ({
                     id: row.id || null,
                     product_id: row.product_id || null,
-                    name: row.name || '—',
+                    name: row.name || "—",
                     description: row.description || null,
                     quantity: row.quantity,
                     unit_price: row.unit_price,
@@ -281,18 +304,18 @@ export function registerInvoiceEditor(Alpine) {
             };
             try {
                 const res = await fetch(this.routes.items, {
-                    method: 'PUT',
+                    method: "PUT",
                     headers: {
-                        'Content-Type': 'application/json',
-                        Accept: 'application/json',
-                        'X-CSRF-TOKEN': this.csrf(),
-                        'X-Requested-With': 'XMLHttpRequest',
+                        "Content-Type": "application/json",
+                        Accept: "application/json",
+                        "X-CSRF-TOKEN": this.csrf(),
+                        "X-Requested-With": "XMLHttpRequest",
                     },
                     body: JSON.stringify(payload),
                 });
                 const data = await res.json();
                 if (!data.ok) {
-                    throw new Error('items');
+                    throw new Error("items");
                 }
                 this.items = data.items;
                 Object.assign(this.invoice, data.invoice);
@@ -331,18 +354,18 @@ export function registerInvoiceEditor(Alpine) {
             };
             try {
                 const res = await fetch(this.routes.design, {
-                    method: 'PATCH',
+                    method: "PATCH",
                     headers: {
-                        'Content-Type': 'application/json',
-                        Accept: 'application/json',
-                        'X-CSRF-TOKEN': this.csrf(),
-                        'X-Requested-With': 'XMLHttpRequest',
+                        "Content-Type": "application/json",
+                        Accept: "application/json",
+                        "X-CSRF-TOKEN": this.csrf(),
+                        "X-Requested-With": "XMLHttpRequest",
                     },
                     body: JSON.stringify({ document: doc }),
                 });
                 const data = await res.json();
                 if (!data.ok) {
-                    throw new Error('design');
+                    throw new Error("design");
                 }
                 this.document = {
                     ...this.document,
@@ -362,7 +385,7 @@ export function registerInvoiceEditor(Alpine) {
             this.items.push({
                 id: null,
                 product_id: null,
-                name: '',
+                name: "",
                 description: null,
                 quantity: 1,
                 unit_price: 0,
@@ -393,7 +416,7 @@ export function registerInvoiceEditor(Alpine) {
                 discount: 0,
                 line_total: 0,
             });
-            this.productPick = '';
+            this.productPick = "";
             this.queueItemsSave();
         },
 
@@ -414,18 +437,18 @@ export function registerInvoiceEditor(Alpine) {
             this.setStatus(this.strings.saving);
             try {
                 const res = await fetch(this.routes.template, {
-                    method: 'PATCH',
+                    method: "PATCH",
                     headers: {
-                        'Content-Type': 'application/json',
-                        Accept: 'application/json',
-                        'X-CSRF-TOKEN': this.csrf(),
-                        'X-Requested-With': 'XMLHttpRequest',
+                        "Content-Type": "application/json",
+                        Accept: "application/json",
+                        "X-CSRF-TOKEN": this.csrf(),
+                        "X-Requested-With": "XMLHttpRequest",
                     },
                     body: JSON.stringify({ invoice_template_id: id }),
                 });
                 const data = await res.json();
                 if (!data.ok) {
-                    throw new Error('tpl');
+                    throw new Error("tpl");
                 }
                 if (data.reload) {
                     window.location.reload();
@@ -453,14 +476,14 @@ export function registerInvoiceEditor(Alpine) {
         },
 
         publicStorageUrl(path) {
-            if (!path || typeof path !== 'string') {
-                return '';
+            if (!path || typeof path !== "string") {
+                return "";
             }
-            if (path.startsWith('http://') || path.startsWith('https://')) {
+            if (path.startsWith("http://") || path.startsWith("https://")) {
                 return path;
             }
 
-            return `/storage/${String(path).replace(/^\/+/, '')}`;
+            return `/storage/${String(path).replace(/^\/+/, "")}`;
         },
 
         stampUrlFor(stamp) {
@@ -495,8 +518,10 @@ export function registerInvoiceEditor(Alpine) {
             this._logoDrag = { startX: e.clientX, startY: e.clientY, ox, oy };
             this._boundLogoMove = (ev) => this.logoDragMove(ev);
             this._boundLogoUp = () => this.logoDragUp();
-            window.addEventListener('pointermove', this._boundLogoMove);
-            window.addEventListener('pointerup', this._boundLogoUp, { capture: true });
+            window.addEventListener("pointermove", this._boundLogoMove);
+            window.addEventListener("pointerup", this._boundLogoUp, {
+                capture: true,
+            });
         },
 
         logoDragMove(ev) {
@@ -515,10 +540,12 @@ export function registerInvoiceEditor(Alpine) {
 
         logoDragUp() {
             if (this._boundLogoMove) {
-                window.removeEventListener('pointermove', this._boundLogoMove);
+                window.removeEventListener("pointermove", this._boundLogoMove);
             }
             if (this._boundLogoUp) {
-                window.removeEventListener('pointerup', this._boundLogoUp, { capture: true });
+                window.removeEventListener("pointerup", this._boundLogoUp, {
+                    capture: true,
+                });
             }
             this._boundLogoMove = null;
             this._boundLogoUp = null;
@@ -529,22 +556,25 @@ export function registerInvoiceEditor(Alpine) {
 
         async uploadLogoFile(e) {
             const file = e.target.files?.[0];
-            e.target.value = '';
+            e.target.value = "";
             if (!file) {
                 return;
             }
             this.setStatus(this.strings.saving);
             const fd = new FormData();
-            fd.append('logo', file);
+            fd.append("logo", file);
             try {
                 const res = await fetch(this.routes.logo, {
-                    method: 'POST',
-                    headers: { 'X-CSRF-TOKEN': this.csrf(), Accept: 'application/json' },
+                    method: "POST",
+                    headers: {
+                        "X-CSRF-TOKEN": this.csrf(),
+                        Accept: "application/json",
+                    },
                     body: fd,
                 });
                 const data = await res.json();
                 if (!res.ok || !data.logo_url) {
-                    throw new Error('logo');
+                    throw new Error("logo");
                 }
                 this.company.logo_url = data.logo_url;
                 this.setStatus(this.strings.saved);
@@ -561,7 +591,7 @@ export function registerInvoiceEditor(Alpine) {
             e.stopPropagation();
             this.selectedStampId = stamp.id;
             this.stampDragging = true;
-            const canvas = document.getElementById('invoice-a4-canvas');
+            const canvas = document.getElementById("invoice-a4-canvas");
             if (!canvas) {
                 return;
             }
@@ -577,15 +607,19 @@ export function registerInvoiceEditor(Alpine) {
             };
             this._boundStampMove = (ev) => this.stampDragMove(ev);
             this._boundStampUp = () => this.stampDragUp();
-            window.addEventListener('pointermove', this._boundStampMove);
-            window.addEventListener('pointerup', this._boundStampUp, { capture: true });
+            window.addEventListener("pointermove", this._boundStampMove);
+            window.addEventListener("pointerup", this._boundStampUp, {
+                capture: true,
+            });
         },
 
         stampDragMove(ev) {
             if (!this._stampDrag) {
                 return;
             }
-            const st = (this.document.stamps || []).find((s) => s.id === this._stampDrag.stampId);
+            const st = (this.document.stamps || []).find(
+                (s) => s.id === this._stampDrag.stampId,
+            );
             if (!st) {
                 return;
             }
@@ -604,10 +638,12 @@ export function registerInvoiceEditor(Alpine) {
 
         stampDragUp() {
             if (this._boundStampMove) {
-                window.removeEventListener('pointermove', this._boundStampMove);
+                window.removeEventListener("pointermove", this._boundStampMove);
             }
             if (this._boundStampUp) {
-                window.removeEventListener('pointerup', this._boundStampUp, { capture: true });
+                window.removeEventListener("pointerup", this._boundStampUp, {
+                    capture: true,
+                });
             }
             this._boundStampMove = null;
             this._boundStampUp = null;
@@ -618,22 +654,25 @@ export function registerInvoiceEditor(Alpine) {
 
         async uploadStampFile(e) {
             const file = e.target.files?.[0];
-            e.target.value = '';
+            e.target.value = "";
             if (!file) {
                 return;
             }
             this.setStatus(this.strings.saving);
             const fd = new FormData();
-            fd.append('stamp', file);
+            fd.append("stamp", file);
             try {
                 const res = await fetch(this.routes.stamp, {
-                    method: 'POST',
-                    headers: { 'X-CSRF-TOKEN': this.csrf(), Accept: 'application/json' },
+                    method: "POST",
+                    headers: {
+                        "X-CSRF-TOKEN": this.csrf(),
+                        Accept: "application/json",
+                    },
                     body: fd,
                 });
                 const data = await res.json();
                 if (!res.ok || !data.ok || !data.document) {
-                    throw new Error('stamp');
+                    throw new Error("stamp");
                 }
                 this.document.stamps = data.document.stamps || [];
                 if (data.new_stamp_id) {
@@ -654,18 +693,18 @@ export function registerInvoiceEditor(Alpine) {
             this.setStatus(this.strings.saving);
             try {
                 const res = await fetch(this.routes.stampRemove, {
-                    method: 'POST',
+                    method: "POST",
                     headers: {
-                        'Content-Type': 'application/json',
-                        Accept: 'application/json',
-                        'X-CSRF-TOKEN': this.csrf(),
-                        'X-Requested-With': 'XMLHttpRequest',
+                        "Content-Type": "application/json",
+                        Accept: "application/json",
+                        "X-CSRF-TOKEN": this.csrf(),
+                        "X-Requested-With": "XMLHttpRequest",
                     },
                     body: JSON.stringify({ stamp_id: stampId }),
                 });
                 const data = await res.json();
                 if (!res.ok || !data.ok || !data.document) {
-                    throw new Error('stamp');
+                    throw new Error("stamp");
                 }
                 this.document.stamps = data.document.stamps || [];
                 this.pickDefaultSelectedStampId();
@@ -700,28 +739,30 @@ export function registerInvoiceEditor(Alpine) {
         },
 
         print() {
-            const node = document.getElementById('invoice-a4-canvas');
+            const node = document.getElementById("invoice-a4-canvas");
             if (!node) return;
 
-            const dir  = document.documentElement.dir  || 'ltr';
-            const lang = document.documentElement.lang || 'en';
-            const cssLinks = Array.from(document.querySelectorAll('link[rel="stylesheet"]'))
+            const dir = document.documentElement.dir || "ltr";
+            const lang = document.documentElement.lang || "en";
+            const cssLinks = Array.from(
+                document.querySelectorAll('link[rel="stylesheet"]'),
+            )
                 .map((l) => `<link rel="stylesheet" href="${l.href}">`)
-                .join('');
+                .join("");
 
-            const w = window.open('', '_blank');
+            const w = window.open("", "_blank");
             w.document.write(
                 `<!DOCTYPE html><html lang="${lang}" dir="${dir}"><head>` +
-                `<meta charset="utf-8"><title>Invoice</title>${cssLinks}` +
-                `<style>` +
-                `@page{size:A4 portrait;margin:0}` +
-                `html,body{margin:0;padding:0;background:#fff;zoom:0.75;}` +
-                `#invoice-a4-canvas{width:210mm!important;min-height:unset!important;box-shadow:none!important;border-radius:0!important;padding:10mm 12mm;box-sizing:border-box;}` +
-                `</style></head><body>${node.outerHTML}</body></html>`
+                    `<meta charset="utf-8"><title>Invoice</title>${cssLinks}` +
+                    `<style>` +
+                    `@page{size:A4 portrait;margin:0}` +
+                    `html,body{margin:0;padding:0;background:#fff;zoom:0.85;display:flex;justify-content:center;}` +
+                    `#invoice-a4-canvas{width:210mm!important;min-height:unset!important;box-shadow:none!important;border-radius:0!important;padding:10mm 12mm;box-sizing:border-box;}` +
+                    `</style></head><body>${node.outerHTML}</body></html>`,
             );
             w.document.close();
 
-            w.addEventListener('load', () => {
+            w.addEventListener("load", () => {
                 w.focus();
                 w.print();
                 w.close();

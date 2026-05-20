@@ -12,7 +12,7 @@
             margin: 0;
             padding: 0;
             width: 210mm;
-            zoom: 0.82;
+            zoom: 0.85;
             -webkit-print-color-adjust: exact;
             print-color-adjust: exact;
         }
