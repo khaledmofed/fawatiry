@@ -5,12 +5,13 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <style>
         @page {
-            margin: 10mm 12mm;
+            margin: 8mm 10mm;
             size: A4 portrait;
         }
         html, body {
             margin: 0;
             padding: 0;
+            width: 210mm;
             -webkit-print-color-adjust: exact;
             print-color-adjust: exact;
         }

@@ -701,20 +701,37 @@ export function registerInvoiceEditor(Alpine) {
 
         print() {
             const node = document.getElementById('invoice-a4-canvas');
-            if (!node) {
-                return;
-            }
-            // Collect all stylesheet links from the current page (same-origin, so no CORS issue)
+            if (!node) return;
+
+            const dir  = document.documentElement.dir  || 'ltr';
+            const lang = document.documentElement.lang || 'en';
             const cssLinks = Array.from(document.querySelectorAll('link[rel="stylesheet"]'))
                 .map((l) => `<link rel="stylesheet" href="${l.href}">`)
                 .join('');
+
             const w = window.open('', '_blank');
             w.document.write(
-                `<!DOCTYPE html><html><head><meta charset="utf-8"><title>Print</title>${cssLinks}<style>@page{size:A4 portrait;margin:12mm}body{margin:0;padding:0;background:#fff;}</style></head><body>${node.outerHTML}</body></html>`,
+                `<!DOCTYPE html><html lang="${lang}" dir="${dir}"><head>` +
+                `<meta charset="utf-8"><title>Invoice</title>${cssLinks}` +
+                `<style>` +
+                `@page{size:A4 portrait;margin:12mm}` +
+                `html,body{margin:0;padding:0;background:#fff;width:186mm;}` +
+                `#invoice-a4-canvas{width:186mm!important;min-height:unset!important;box-shadow:none!important;border-radius:0!important;}` +
+                `</style></head><body>${node.outerHTML}</body></html>`
             );
             w.document.close();
-            // Wait for stylesheets to load before printing
+
             w.addEventListener('load', () => {
+                // Scale down to fit one A4 page if content is taller than the printable area
+                const canvas = w.document.getElementById('invoice-a4-canvas');
+                if (canvas) {
+                    const pxPerMm  = 96 / 25.4;
+                    const maxH     = (297 - 24) * pxPerMm; // 297mm minus 2×12mm margins
+                    const actualH  = canvas.scrollHeight;
+                    if (actualH > maxH) {
+                        w.document.body.style.zoom = (maxH / actualH).toFixed(4);
+                    }
+                }
                 w.focus();
                 w.print();
                 w.close();
