@@ -12,9 +12,15 @@
             margin: 0;
             padding: 0;
             width: 210mm;
+            background-color: #ffffff !important;
             zoom: 0.95;
             -webkit-print-color-adjust: exact;
             print-color-adjust: exact;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
         }
 
         /* Inter font embedded from @fontsource/inter (woff — supported by Chromium) */
@@ -44,6 +50,9 @@
     @if(!empty($embeddedCss))
         <style>{!! $embeddedCss !!}</style>
     @endif
+    <style>
+        html, body { background-color: #ffffff !important; }
+    </style>
 </head>
 <body>
     @include('invoices.pdf.partials.frame-static', [
