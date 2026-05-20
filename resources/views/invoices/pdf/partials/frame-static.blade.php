@@ -81,16 +81,10 @@
                     <p class="{{ $t['sectionTitle'] }} mb-2">{{ __('Invoice details') }}</p>
                     <table width="100%" style="border-collapse:collapse; font-size:0.875rem;">
                         <tr>
-                            <td style="padding:5px 0; border-bottom:1px solid rgba(0,0,0,0.08); text-align:{{ $cellLabel }}; vertical-align:middle; opacity:0.75;">{{ __('Issue date') }}</td>
-                            <td style="padding:5px 0; border-bottom:1px solid rgba(0,0,0,0.08); text-align:{{ $cellValue }}; vertical-align:middle; font-weight:500;">{{ $invoice->invoice_date?->format('Y-m-d') ?? '—' }}</td>
-                        </tr>
-                        <tr>
-                            <td style="padding:5px 0; border-bottom:1px solid rgba(0,0,0,0.08); text-align:{{ $cellLabel }}; vertical-align:middle; opacity:0.75;">{{ __('Due date') }}</td>
-                            <td style="padding:5px 0; border-bottom:1px solid rgba(0,0,0,0.08); text-align:{{ $cellValue }}; vertical-align:middle; font-weight:500;">{{ $invoice->due_date?->format('Y-m-d') ?? '—' }}</td>
-                        </tr>
-                        <tr>
-                            <td style="padding:5px 0; border-bottom:1px solid rgba(0,0,0,0.08); text-align:{{ $cellLabel }}; vertical-align:middle; opacity:0.75;">{{ __('Currency') }}</td>
-                            <td style="padding:5px 0; border-bottom:1px solid rgba(0,0,0,0.08); text-align:{{ $cellValue }}; vertical-align:middle; font-family:ui-monospace,monospace; font-weight:500;">{{ e($invoice->currency) }}</td>
+                            <td style="padding:5px 0; border-bottom:1px solid rgba(0,0,0,0.08); vertical-align:middle; opacity:0.75; width:25%;">{{ __('Issue date') }}</td>
+                            <td style="padding:5px 0; border-bottom:1px solid rgba(0,0,0,0.08); vertical-align:middle; font-weight:500; width:25%;">{{ $invoice->invoice_date?->format('Y-m-d') ?? '—' }}</td>
+                            <td style="padding:5px 0 5px 12px; border-bottom:1px solid rgba(0,0,0,0.08); vertical-align:middle; opacity:0.75; width:25%;">{{ __('Due date') }}</td>
+                            <td style="padding:5px 0; border-bottom:1px solid rgba(0,0,0,0.08); vertical-align:middle; font-weight:500; width:25%;">{{ $invoice->due_date?->format('Y-m-d') ?? '—' }}</td>
                         </tr>
                     </table>
                 </div>

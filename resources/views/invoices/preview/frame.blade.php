@@ -70,18 +70,14 @@
             </div>
             <div>
                 <p class="{{ $t['sectionTitle'] }} mb-2">{{ __('Invoice details') }}</p>
-                <dl class="grid grid-cols-1 gap-2 text-sm">
-                    <div class="flex flex-wrap justify-between gap-2 border-b border-black/5 pb-2">
+                <dl class="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
+                    <div class="border-b border-black/5 pb-2">
                         <dt class="opacity-70">{{ __('Issue date') }}</dt>
-                        <dd><input type="date" x-model="invoice.invoice_date" @change="queueMetaSave()" class="{{ $t['input'] }} text-end sm:text-start" /></dd>
+                        <dd><input type="date" x-model="invoice.invoice_date" @change="queueMetaSave()" class="{{ $t['input'] }} w-full" /></dd>
                     </div>
-                    <div class="flex flex-wrap justify-between gap-2 border-b border-black/5 pb-2">
+                    <div class="border-b border-black/5 pb-2">
                         <dt class="opacity-70">{{ __('Due date') }}</dt>
-                        <dd><input type="date" x-model="invoice.due_date" @change="queueMetaSave()" class="{{ $t['input'] }} text-end sm:text-start" /></dd>
-                    </div>
-                    <div class="flex flex-wrap justify-between gap-2 border-b border-black/5 pb-2">
-                        <dt class="opacity-70">{{ __('Currency') }}</dt>
-                        <dd><input type="text" maxlength="3" x-model="invoice.currency" @change="queueMetaSave()" class="{{ $t['input'] }} w-16 font-mono uppercase text-end sm:text-start" /></dd>
+                        <dd><input type="date" x-model="invoice.due_date" @change="queueMetaSave()" class="{{ $t['input'] }} w-full" /></dd>
                     </div>
                 </dl>
             </div>

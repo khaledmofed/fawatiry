@@ -62,18 +62,14 @@
             {{-- Invoice details --}}
             <div>
                 <p class="{{ $t['sectionTitle'] }} mb-2">{{ __('Invoice details') }}</p>
-                <dl class="grid grid-cols-1 gap-2 text-sm">
-                    <div class="flex flex-wrap justify-between gap-2 border-b border-black/5 pb-2">
+                <dl class="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
+                    <div class="border-b border-black/5 pb-2">
                         <dt class="opacity-70">{{ __('Issue date') }}</dt>
                         <dd class="font-medium" x-text="invoice.invoice_date || '—'"></dd>
                     </div>
-                    <div class="flex flex-wrap justify-between gap-2 border-b border-black/5 pb-2">
+                    <div class="border-b border-black/5 pb-2">
                         <dt class="opacity-70">{{ __('Due date') }}</dt>
                         <dd class="font-medium" x-text="invoice.due_date || '—'"></dd>
-                    </div>
-                    <div class="flex flex-wrap justify-between gap-2 border-b border-black/5 pb-2">
-                        <dt class="opacity-70">{{ __('Currency') }}</dt>
-                        <dd class="font-mono font-semibold uppercase" x-text="invoice.currency"></dd>
                     </div>
                 </dl>
             </div>
