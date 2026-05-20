@@ -30,7 +30,7 @@ class SettingsController extends Controller
             'email',
             'default_currency',
             'default_tax_rate',
-        ])->toArray();
+        ]);
         $this->companySettingsService->update(
             $data,
             $request->file('logo'),
