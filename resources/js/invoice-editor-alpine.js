@@ -763,6 +763,12 @@ export function registerInvoiceEditor(Alpine) {
             w.document.close();
 
             w.addEventListener("load", () => {
+                // Fix double-encoded HTML entities (&amp; → &) caused by outerHTML serialization
+                const walker = w.document.createTreeWalker(w.document.body, NodeFilter.SHOW_TEXT);
+                const nodes = [];
+                while (walker.nextNode()) nodes.push(walker.currentNode);
+                nodes.forEach((n) => { n.textContent = n.textContent.replace(/&amp;/g, '&'); });
+
                 w.focus();
                 w.print();
                 w.close();
